@@ -12,13 +12,14 @@
 #define YELLOW  0xFFE0
 #define WHITE   0xFFFF
 
-void updateData(TouchScreen &screen, int xPos, int yPos, auto data, auto prevData, string dataType) {
+void updateData(Adafruit_TFTLCD &screen, int xPos, int yPos, float data, float prevData, String dataType) {
   screen.setTextColor(BLACK);
-  screen.setCursor (x, y);
+  screen.setCursor (xPos, yPos);
   screen.print(prevData);
-  screen.setCursor(x, y);
+  screen.setCursor(xPos, yPos);
   screen.setTextColor(CYAN);
   
-  String toPrint = data + dataType;
-  screen.print(data);
+  String toPrint = (String)data + dataType;
+  screen.print(toPrint);
+  screen.setTextColor(WHITE);
 }
