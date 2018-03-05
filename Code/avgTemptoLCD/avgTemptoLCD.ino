@@ -56,7 +56,6 @@ void setup(void) {
   tft.setTextColor(WHITE);
   tft.setRotation(45);
   tft.setTextSize(3); 
-
 }
 
 void loop(void) {
@@ -67,12 +66,13 @@ void loop(void) {
   byte data[12];
   byte addr[8];
   float celsius;
-  unsigned long currentMillis = millis();
+  unsigned long currentMillis  = millis();
 
   if ( !ds.search(addr)) {
     tft.setCursor (0, 0);
     tft.print("Temp = ");
-'    if (currentMillis - previousMillis > interval) {
+
+    if (currentMillis - previousMillis > interval) {
       previousMillis = currentMillis;
       if (_white) {
         tft.fillRect(140, 0, 15, 30, BLACK);
@@ -82,6 +82,7 @@ void loop(void) {
         tft.fillRect(140, 0, 15, 30, WHITE);
         _white = true;
       }
+    }
     }
     tempAvg = tempAvg/count;
 
