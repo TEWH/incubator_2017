@@ -83,7 +83,7 @@ void loop(void) {
         _white = true;
       }
     }
-    }
+    
     tempAvg = tempAvg/count;
 
     if (tempAvg != prevTemp) {
