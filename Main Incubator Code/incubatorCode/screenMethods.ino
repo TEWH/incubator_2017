@@ -23,3 +23,11 @@ void updateData(Adafruit_TFTLCD &screen, int xPos, int yPos, float data, float p
   screen.print(toPrint);
   screen.setTextColor(WHITE);
 }
+
+String timeConverter(int timeMins) {
+  int hrs = timeMins / 60;
+  int mins = timeMins % 60;
+  String desTime = (String)hrs + " hrs " + (String)mins + " mins";
+  return desTime;
+}
+

@@ -12,41 +12,19 @@
 #include <SPFD5408_TouchScreen.h>
 #include <Keypad.h>
 
-struct dataLine {
-    String dataType;
-    float data;
-    String endType;
-
-    void setData(float _data) {
-        data = _data;
-    }
-
-    // void printDataLine(Adafruit_TFTLCD &screen, float newData, int x, int y, int xOffset, bool firstTime) {
-    //     if (firstTime) {
-    //         screen.setCursor(x, y);
-    //         screen.print(dataType);
-    //     }
-    //     if (newData != data) {
-    //         screen.setCursor((x + xOffset), y);
-    //         String toPrint = newData + endType;
-    //         screen.setTextColor(BLACK)
-    //         screen.print(toPrint);
-    //     }
-
-    // }
-
-};
-
 class menuScreen {
     public:
         menuScreen(String name, String text[], int textSize);
         // menuScreen(String name, dataLine *data[], Adafruit_TFTLCD &display);
         void printStaticScreen(Adafruit_TFTLCD& screen);
         void printStaticInput(Adafruit_TFTLCD& screen, int x, int y);
-        int getTwoDigVal(Adafruit_TFTLCD& screen, Keypad& numpad, int x, int y);
+        void printStaticLine(Adafruit_TFTLCD& screen, String content, uint color, int x, int y);
+
+        int getTwoDigVal(Adafruit_TFTLCD& screen, Keypad& numpad, int x, int y, bool secondaryInput);
         int getTemp(Adafruit_TFTLCD& screen, Keypad& numpad, int x, int y);
-        long getHourAndMin(Adafruit_TFTLCD& screen, Keypad& numpad, int x, int y);
-        long getBiliTime(Adafruit_TFTLCD& screen, Keypad& numpad, int x, int y);
+        int getHourAndMin(Adafruit_TFTLCD& screen, Keypad& numpad, int x, int y);
+        int getBiliTime(Adafruit_TFTLCD& screen, Keypad& numpad, int x, int y);
+        void getInputs(Adafruit_TFTLCD& screen, Keypad& numpad, int x, int y, int inputs[]);
 
     private:
         String _name;
