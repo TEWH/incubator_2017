@@ -56,7 +56,7 @@ String desTemp;
 String desTime;
 bool validNums = false;
 
-// Initialize variables and objects for time dependent events
+// Initialize variables and objects for time dependent events (millis)
 long previousMillis = 0; // used to check whether the interval has been exceeded
 long biliInterval = 60000; // one minute
 
