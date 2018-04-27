@@ -12,6 +12,6 @@ The code for the incubator integrates the electrical componenets in our incubato
 * Specify and maintain incubation temperature
 * Specify duration of phototherapy
 * Real-time temperature readings accurate to 0.5C
-* Circulate air throguh the incubation chamber
+* Circulate air through the incubation chamber
 * User friendly interface with safety features
 * User input via a keypad
