@@ -52,6 +52,8 @@ char backPress;
 int inputs[2] = {0, 0};
 int desiredTemp;
 int biliTime;
+String desTemp;
+String desTime;
 bool validNums = false;
 
 // Initialize variables and objects for time dependent events
@@ -99,6 +101,12 @@ void loop(void) {
     interface.getInputs(tft, numpad, 0, 0, inputs);
     desiredTemp = inputs[0];
     biliTime = inputs[1];
+    if (biliTime > 0) {
+      desTime = timeConverter(biliTime); 
+      biliTime += 1;
+    }
+
+    else { desTime = timeConverter(biliTime); }
     Serial.println("Input temp = " + (String)desiredTemp);
     Serial.println("Input time = " + (String)biliTime);
 
@@ -108,11 +116,10 @@ void loop(void) {
       
       // print the reference temperature (input temp)
       tft.fillRect(0, 0, 320, 240, BLACK);
-      String desTemp = "Input Temperature:   " + (String)desiredTemp + " C";
+      desTemp = "Input Temperature:   " + (String)desiredTemp + " C";
       interface.printStaticLine(tft, desTemp, WHITE, 0, 0);
   
       // print bililight initial time
-      String desTime = timeConverter(biliTime);
       interface.printStaticLine(tft, "Input Time: ", WHITE, 0, 60);
       interface.printStaticLine(tft, desTime, CYAN, 135, 60);
       tft.setTextColor(WHITE); 
