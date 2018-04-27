@@ -56,11 +56,11 @@ bool validNums = false;
 
 // Initialize variables and objects for time dependent events
 long previousMillis = 0; // used to check whether the interval has been exceeded
-long biliInterval = 500; // one minute
+long biliInterval = 60000; // one minute
 
 // Pin numbers and variables for bililight control
-#define biliOne 38
-#define biliTwo 40
+#define biliOne 51
+#define biliTwo 53
 bool lightsChecked = false;
 
 void setup(void) {
@@ -81,7 +81,6 @@ void loop(void) {
   byte data[12];
   byte addr[8];
   float celsius;
-  unsigned long currentMillis  = millis();
 
   // initial temp + time input and reset if the back button is pressed
   while(!validNums) {
@@ -89,6 +88,7 @@ void loop(void) {
     // turns bililights off if they were on
     digitalWrite(biliOne, LOW);
     digitalWrite(biliTwo, LOW);
+    lightsChecked = false;
       
     // reset screen
     tft.fillScreen(BLACK);
@@ -137,7 +137,7 @@ void loop(void) {
   backPress = numpad.getKey();
   // if the button has been pressed, we re-enter the while loop above
   if (backPress == 'B') { validNums = false; }
-
+  
   // code for the temperature sensors
   if ( !ds.search(addr)) {
     tft.setCursor (0, 30);
@@ -202,6 +202,7 @@ void loop(void) {
   }
 
   // bililight timer
+  unsigned long currentMillis  = millis();
   if (currentMillis - previousMillis > biliInterval && biliTime > 0) {
     previousMillis = currentMillis;
     biliTime -= 1;
@@ -215,7 +216,7 @@ void loop(void) {
     lightsChecked = true;
   }
 
-  else if (biliTime <=0 && !lightsChecked){
+  else if (biliTime <=0){
     digitalWrite(biliOne, LOW);
     digitalWrite(biliTwo, LOW);
   }
