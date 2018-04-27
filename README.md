@@ -2,7 +2,7 @@
 
 This is the documentation for the bili light incubator created by Texas Engineering World Health (TEWH) for the 2017-2018 Engineering World Health design competition.
 
-Markup : ! [picture alt](https://i.redd.it/vifmhofys2u01.jpg)
+Markup : ! [alt text](https://i.redd.it/vifmhofys2u01.jpg)
 
 We built the bili light incubator to cure newborns in developing nations who are suffering from jaundice. Jaundice is a disease common in newborns that results when a child is unable to breakdown the protein bilirubin in the bloodstream. Left untreated, jaundice can result in death within a month. Fortunately, this diease can easily be treated by bili light phototherapy, which exposes children to a specific light wavelength that decomposes the excess bilirubin. 
 
