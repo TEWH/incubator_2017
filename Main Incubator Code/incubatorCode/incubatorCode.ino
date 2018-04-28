@@ -55,6 +55,7 @@ int biliTime;
 String desTemp;
 String desTime;
 bool validNums = false;
+int out;
 
 // Initialize variables and objects for time dependent events (millis)
 long previousMillis = 0; // used to check whether the interval has been exceeded
@@ -64,6 +65,9 @@ long biliInterval = 60000; // one minute
 #define biliOne 51
 #define biliTwo 53
 bool lightsChecked = false;
+
+//Other defined functions
+void PIcontrol(int curTemp, int desiredTemp);
 
 void setup(void) {
   // Initiate communications with serial
@@ -159,6 +163,13 @@ void loop(void) {
       updateData(tft, 140, 30, tempAvg, prevTemp, " C");
     }
 
+
+    /*
+     * 
+     * Here is where the PWM code will go
+     */
+     PIcontrol(tempAvg, desiredTemp);
+
     // resets the calculations
     prevTemp = tempAvg;
     count = 0;
@@ -229,3 +240,12 @@ void loop(void) {
   }
   
 }
+
+void PIcontrol(int curTemp, int desiredTemp){
+    int error = desiredTemp - curTemp; 
+    out = out + (100*error)/5
+    //constrain to 255 
+    analogWrite(out, 200);
+    delay(50);
+}
+
