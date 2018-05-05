@@ -7,8 +7,8 @@
 
 // Object and variables need for avg temperature calculation
 OneWire  ds(52);  // on pin 11 (a 4.7K resistor is necessary)
-double tempAvg = 0;
-double prevTemp = 0;
+float tempAvg = 0;
+float prevTemp = 0;
 int count;
 
 // Control pins for the LCD
@@ -55,7 +55,7 @@ int biliTime;
 String desTemp;
 String desTime;
 bool validNums = false;
-int out;
+float actualTemp = 0;
 
 // Initialize variables and objects for time dependent events (millis)
 long previousMillis = 0; // used to check whether the interval has been exceeded
@@ -66,8 +66,15 @@ long biliInterval = 60000; // one minute
 #define biliTwo 53
 bool lightsChecked = false;
 
-//Other defined functions
-void PIcontrol(int curTemp, int desiredTemp);
+// PI variables
+#define pwmPin 46
+float error = 0;
+float integralError = 0;
+float Kp = 50;
+int pwm = 0;
+
+// Other defined functions
+void PIcontrol(float curTemp, int desiredTemp, float integralError, int pin);
 
 void setup(void) {
   // Initiate communications with serial
@@ -78,6 +85,7 @@ void setup(void) {
   // set bililight pin modes as output
   pinMode(biliOne, OUTPUT);
   pinMode(biliTwo, OUTPUT);
+  pinMode(pwmPin, OUTPUT);
 }
 
 void loop(void) {
@@ -157,6 +165,7 @@ void loop(void) {
 
     // calculates the avg temp
     tempAvg = tempAvg/count;
+    actualTemp = tempAvg;
 
     // if the temp has changed, update the temperature on the screen
     if (tempAvg != prevTemp) {
@@ -168,7 +177,7 @@ void loop(void) {
      * 
      * Here is where the PWM code will go
      */
-     PIcontrol(tempAvg, desiredTemp);
+//     PIcontrol(tempAvg, desiredTemp);
 
     // resets the calculations
     prevTemp = tempAvg;
@@ -238,14 +247,21 @@ void loop(void) {
     digitalWrite(biliOne, LOW);
     digitalWrite(biliTwo, LOW);
   }
-  
+
+
+  // PI control
+  PIcontrol(actualTemp, desiredTemp, integralError);
 }
 
-void PIcontrol(int curTemp, int desiredTemp){
-    int error = desiredTemp - curTemp; 
-    out = out + (100*error)/5
-    //constrain to 255 
-    analogWrite(out, 200);
-    delay(50);
+void PIcontrol(float curTemp, int desTemp, float integError){
+  float error = desTemp - curTemp;
+  pwm += (Kp * error);
+  //constrain to 255 
+  if (pwm < 0) { pwm = 0; }
+  else if (pwm > 255) { pwm = 255; }
+    
+  analogWrite(pwmPin, pwm);
+  Serial.println("Current Temp = " + (String)(curTemp) + "\t" + "PWM Value = " + (String)pwm);
+  delay(50);
 }
 

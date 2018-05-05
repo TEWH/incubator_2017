@@ -242,7 +242,8 @@ void loop(void) {
 }
 
 void PIcontrol(int curTemp, int desiredTemp){
-    int error = desiredTemp - curTemp; 
+    int error = desiredTemp - curTemp;
+    int K_p = 100 / 5; 
     out = out + (100*error)/5
     //constrain to 255 
     analogWrite(out, 200);

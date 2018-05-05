@@ -18,7 +18,7 @@ void updateData(Adafruit_TFTLCD &screen, int xPos, int yPos, float data, float p
   screen.print(prevData);
   screen.setCursor(xPos, yPos);
   screen.setTextColor(CYAN);
-  
+  screen.fillRect(xPos, yPos, 320, yPos + 20, BLACK);
   String toPrint = (String)data + dataType;
   screen.print(toPrint);
   screen.setTextColor(WHITE);
