@@ -73,6 +73,9 @@ float integralError = 0;
 float Kp = 50;
 int pwm = 0;
 
+// pin for fan control
+#define fanPin 53
+
 // Other defined functions
 void PIcontrol(float curTemp, int desiredTemp, float integralError, int pin);
 
@@ -86,6 +89,7 @@ void setup(void) {
   pinMode(biliOne, OUTPUT);
   pinMode(biliTwo, OUTPUT);
   pinMode(pwmPin, OUTPUT);
+  pinMode(fanPin, OUTPUT);
 }
 
 void loop(void) {
@@ -107,7 +111,7 @@ void loop(void) {
     // reset screen
     tft.fillScreen(BLACK);
     tft.setTextColor(WHITE);
-    tft.setRotation(45);
+    tft.setRotation(190+45);
   
     // get inputs + print to serial to make sure it works
     interface.getInputs(tft, numpad, 0, 0, inputs);
@@ -247,10 +251,13 @@ void loop(void) {
     digitalWrite(biliOne, LOW);
     digitalWrite(biliTwo, LOW);
   }
-
-
+  
   // PI control
   PIcontrol(actualTemp, desiredTemp, integralError);
+  Serial.println((String)(millis()) + ", " + (String)actualTemp + ", " + desiredTemp);
+
+  // fan on
+  digitalWrite(fanPin, HIGH);
 }
 
 void PIcontrol(float curTemp, int desTemp, float integError){
@@ -261,7 +268,7 @@ void PIcontrol(float curTemp, int desTemp, float integError){
   else if (pwm > 255) { pwm = 255; }
     
   analogWrite(pwmPin, pwm);
-  Serial.println("Current Temp = " + (String)(curTemp) + "\t" + "PWM Value = " + (String)pwm);
+  // Serial.println("Current Temp = " + (String)(curTemp) + "\t" + "PWM Value = " + (String)pwm);
   delay(50);
 }
 
